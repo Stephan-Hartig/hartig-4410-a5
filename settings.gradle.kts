@@ -8,4 +8,4 @@
  */
 
 rootProject.name = "hartig-4410-a5"
-include("app")
+include("src")
