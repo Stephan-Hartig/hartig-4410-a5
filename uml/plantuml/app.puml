@@ -81,5 +81,6 @@ warehouse.Warehouse --> warehouse.LoadingDock
 warehouse.Warehouse --> warehouse.Inventory
 
 gui --> warehouse.Warehouse
+gui --> warehouse.Item
 
 @enduml
