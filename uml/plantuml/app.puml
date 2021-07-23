@@ -1,0 +1,66 @@
+@startuml
+
+!define private(x) <i>x</i>
+
+package gson {}
+package jsoup {}
+class tsv.Tsv {
+   String toTsv(T[])
+   T[] fromTsv(String, Class)
+}
+
+class warehouse.InventoryDB {
+   private(Inventory loadTsv(File))
+   private(Inventory loadJson(File))
+   private(Inventory loadHtml(File))
+   private(void saveTsv(File, Inventory))
+   private(void saveJson(File, Inventory))
+   private(void saveHtml(File, Inventory))
+   ---
+   Inventory load(File)
+   void save(File, Inventory)
+}
+
+class warehouse.Item {
+   String value
+   String serial
+   String name
+   ---
+   Item clone()
+}
+
+class warehouse.Inventory {
+   Map<String, Item> items
+   ---
+   boolean add(Item item)
+   boolean has(Item item)
+   Iterator<Item> snapshot()
+}
+
+class InventoryController {
+   private(File lastFile)
+   ---
+   boolean add(Item item)
+   boolean has(Item item)
+   boolean update(Item from, Item to)
+   Iterator<Item> snapshot()
+   void load(File)
+   void saveAs(File)
+   void save()
+   void new()
+}
+
+component gui {
+}
+
+warehouse.Inventory --> warehouse.Item
+warehouse.InventoryDB --> tsv
+warehouse.InventoryDB --> gson
+warehouse.InventoryDB --> jsoup
+
+InventoryController --> warehouse.InventoryDB
+InventoryController --> warehouse.Inventory
+
+gui --> InventoryController
+
+@enduml
