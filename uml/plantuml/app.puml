@@ -1,6 +1,7 @@
 @startuml
 
 !define private(x) <i>x</i>
+!define static(x) static x
 
 package gson {}
 package jsoup {}
@@ -9,36 +10,54 @@ class tsv.Tsv {
    T[] fromTsv(String, Class)
 }
 
-class warehouse.InventoryDB {
-   private(Inventory loadTsv(File))
-   private(Inventory loadJson(File))
-   private(Inventory loadHtml(File))
+class warehouse.LoadingDock {
+   private(Item[] loadTsv(File))
+   private(Item[] loadJson(File))
+   private(Item[] loadHtml(File))
    private(void saveTsv(File, Inventory))
    private(void saveJson(File, Inventory))
    private(void saveHtml(File, Inventory))
+   private(void saveTsv(File,  Iterator<Item>))
+   private(void saveJson(File, Iterator<Item>))
+   private(void saveHtml(File, Iterator<Item>))
    ---
-   Inventory load(File)
-   void save(File, Inventory)
+   Item[] load(File)
+   void save(File, Item[])
+   void save(File, Iterator<Item>)
 }
 
 class warehouse.Item {
-   String value
-   String serial
-   String name
+   Item()
+   Item(String, String, String)
+   ---
+   private(String value)
+   private(String serial)
+   private(String name)
    ---
    Item clone()
+   String getValue()
+   String getSerial()
+   String getName()
+   boolean isValidValue()
+   boolean isValidName()
+   boolean isValidSerial()
+   boolean isValidItem()
 }
 
 class warehouse.Inventory {
-   Map<String, Item> items
+   Inventory()
+   Inventory(Item[])
    ---
-   boolean add(Item item)
-   boolean has(Item item)
+   <i>Map<String, Item> items</i>
+   ---
+   boolean add(Item)
+   boolean has(Item)
    Iterator<Item> snapshot()
 }
 
-class InventoryController {
+class warehouse.Warehouse {
    private(File lastFile)
+   private(Inventory inventory)
    ---
    boolean add(Item item)
    boolean has(Item item)
@@ -54,13 +73,13 @@ component gui {
 }
 
 warehouse.Inventory --> warehouse.Item
-warehouse.InventoryDB --> tsv
-warehouse.InventoryDB --> gson
-warehouse.InventoryDB --> jsoup
+warehouse.LoadingDock --> tsv
+warehouse.LoadingDock --> gson
+warehouse.LoadingDock --> jsoup
 
-InventoryController --> warehouse.InventoryDB
-InventoryController --> warehouse.Inventory
+warehouse.Warehouse --> warehouse.LoadingDock
+warehouse.Warehouse --> warehouse.Inventory
 
-gui --> InventoryController
+gui --> warehouse.Warehouse
 
 @enduml
