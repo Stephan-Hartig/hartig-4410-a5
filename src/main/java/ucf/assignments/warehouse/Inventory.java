@@ -1,4 +1,4 @@
-package ucf.assignments.inventory;
+package ucf.assignments.warehouse;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +16,14 @@ public class Inventory {
       
       this.items.put(item.serial, item);
       return true;
+   }
+   
+   public boolean remove(Item item) {
+      return this.items.remove(item.getSerial()) == null;
+   }
+   
+   public int size() {
+      return this.items.size();
    }
    
    public boolean has(String serial) {

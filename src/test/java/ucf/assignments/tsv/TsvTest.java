@@ -1,10 +1,8 @@
 package ucf.assignments.tsv;
 
-import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
