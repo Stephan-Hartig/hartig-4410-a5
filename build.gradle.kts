@@ -38,6 +38,22 @@ application {
    mainClass.set("ucf.assignments.App")
 }
 
+//sourceSets {
+//   test {
+//      java {
+//         srcDirs("src/test")
+//      }
+//   }
+//}
+
+//sourceSets {
+//   test {
+//      java {
+//         srcDirs = ["src/test"]
+//      }
+//   }
+//}
+
 tasks.test {
    useJUnitPlatform()
 }

@@ -21,8 +21,12 @@ public class InventoryTest {
    private static Inventory inventoryFromStrings(String ... fields) {
       Inventory inventory = new Inventory();
       for (String field : fields)
-         inventory.add(new Item(field, field, field));
+         inventory.add(itemFromString(field));
       return inventory;
+   }
+   
+   private static Item itemFromString(String field) {
+      return new Item(field, field, field);
    }
    
    private static Iterable<Item> itemsFromStrings(String ... fields) {
@@ -85,6 +89,37 @@ public class InventoryTest {
          Arguments.of(3, itemsFromStrings("one", "two", "one", "four")),
          Arguments.of(2, itemsFromStrings("one", "two", "one", "one"))
       );
+   }
+   
+   @SuppressWarnings("unused")
+   private static Stream<Arguments> params_update() {
+      return Stream.of(
+         Arguments.of(
+            inventoryFromStrings("one", "two", "three"),
+            inventoryFromStrings("one", "four", "three"),
+            itemFromString("two"),
+            itemFromString("four")
+         ),
+         Arguments.of(
+            inventoryFromStrings("one", "two", "three"),
+            inventoryFromStrings("one", "two", "three"),
+            itemFromString("tw"),
+            itemFromString("four")
+         ),
+         Arguments.of(
+            inventoryFromStrings("one", "two", "three"),
+            inventoryFromStrings("one", "two", "three"),
+            itemFromString("four"),
+            itemFromString("four")
+         )
+      );
+   }
+   
+   @ParameterizedTest
+   @MethodSource("params_update")
+   void test_update(Inventory inventory, Inventory expected, Item from, Item to) {
+      inventory.update(from, to);
+      assertEquals(inventory, expected);
    }
    
    

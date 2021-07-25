@@ -50,10 +50,7 @@ public class Warehouse {
    }
    
    public boolean update(Item from, Item to) {
-      if (!this.remove(from))
-         return false;
-      
-      return this.add(to);
+      return this.inventory.update(from, to);
    }
    
    public void clear() {

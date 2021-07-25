@@ -33,7 +33,14 @@ public class Inventory {
    }
    
    public boolean remove(Item item) {
-      return this.items.remove(item.getSerial()) == null;
+      return this.items.remove(item.getSerial()) != null;
+   }
+   
+   public boolean update(Item from, Item to) {
+      if (!this.remove(from))
+         return false;
+      
+      return this.add(to);
    }
    
    public int size() {

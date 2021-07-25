@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class WarehouseTest {
+   
    @SuppressWarnings("unused")
    private static Stream<Arguments> params_file_io() {
       return Stream.of(
@@ -64,5 +65,12 @@ public class WarehouseTest {
       
       assertEquals(tmp, other.getLastFile());
       assertEquals(expectedSize, other.size());
+      assertEquals(warehouse, other);
+   
+      /* Add an item to `warehouse`, save it, refresh `other`, then assert that `warehouse` and `other` are both equal. */
+      warehouse.add(new Item("item-3-value", "item-3-serial", "item-3-name"));
+      warehouse.save();
+      other.refresh();
+      assertEquals(warehouse, other);
    }
 }
