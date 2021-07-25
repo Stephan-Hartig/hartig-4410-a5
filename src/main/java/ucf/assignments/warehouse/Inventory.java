@@ -2,12 +2,26 @@ package ucf.assignments.warehouse;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Inventory {
    private Map<String, Item> items;
    
    public Inventory() {
       this.items = new HashMap<>();
+   }
+   
+   @Override
+   public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      Inventory inventory = (Inventory) o;
+      return items.equals(inventory.items);
+   }
+   
+   @Override
+   public int hashCode() {
+      return Objects.hash(items);
    }
    
    public boolean add(Item item) {

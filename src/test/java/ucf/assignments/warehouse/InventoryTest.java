@@ -11,7 +11,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -33,6 +32,7 @@ public class InventoryTest {
       return items;
    }
    
+   @SuppressWarnings("unused")
    private static Stream<Arguments> params_snapshot() {
       return Stream.of(
          Arguments.of(
@@ -72,6 +72,7 @@ public class InventoryTest {
       assertTrue(true);
    }
    
+   @SuppressWarnings("unused")
    private static Stream<Arguments> params_add() {
       return Stream.of(
          /* NOTE: Inventory ONLY cares if the serial is a dupe and DOES NOT care if `Item.isValid()`. */
@@ -100,6 +101,7 @@ public class InventoryTest {
       assertEquals(expectedSize, inventory.size());
    }
    
+   @SuppressWarnings("unused")
    private static Stream<Arguments> params_remove() {
       return Stream.of(
          /* NOTE: Inventory ONLY cares about the serial when it comes to removing. */
@@ -127,5 +129,34 @@ public class InventoryTest {
       inventory.remove(toRemove);
       
       assertEquals(expectedSize, inventory.size());
+      
+      assertFalse(inventory.has(toRemove.getSerial()));
+   }
+   
+   @SuppressWarnings("unused")
+   private static Stream<Arguments> params_has() {
+      return Stream.of(
+         Arguments.of(
+            true,
+            inventoryFromStrings("one", "two", "three"),
+            "one"
+         ),
+         Arguments.of(
+            false,
+            inventoryFromStrings("one", "two", "1234567890"),
+            "123456789x"
+         ),
+         Arguments.of(
+            false,
+            inventoryFromStrings("one", "two", "three"),
+            "four"
+         )
+      );
+   }
+   
+   @ParameterizedTest
+   @MethodSource("params_has")
+   void test_has(boolean has, Inventory inventory, String serial) {
+      assertEquals(has, inventory.has(serial));
    }
 }

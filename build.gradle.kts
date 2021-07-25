@@ -25,6 +25,7 @@ dependencies {
    implementation("com.google.guava:guava:30.1-jre")
    implementation("net.sf.biweekly:biweekly:0.6.6")
    implementation("com.google.code.gson:gson:2.8.7")
+   implementation("org.jsoup:jsoup:1.14.1")
 
    compileOnly("org.projectlombok:lombok:1.18.20")
    annotationProcessor("org.projectlombok:lombok:1.18.20")

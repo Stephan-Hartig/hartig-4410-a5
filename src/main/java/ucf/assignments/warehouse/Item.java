@@ -2,6 +2,7 @@ package ucf.assignments.warehouse;
 
 import lombok.Getter;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class Item {
@@ -9,10 +10,26 @@ public class Item {
    @Getter public String serial;
    @Getter public String name;
    
+   @SuppressWarnings("unused")
+   public Item() { }
+   
    public Item(String value, String serial, String name) {
       this.value = value;
       this.serial = serial;
       this.name = name;
+   }
+   
+   @Override
+   public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      Item item = (Item) o;
+      return value.equals(item.value) && serial.equals(item.serial) && name.equals(item.name);
+   }
+   
+   @Override
+   public int hashCode() {
+      return Objects.hash(value, serial, name);
    }
    
    public Item copy() {

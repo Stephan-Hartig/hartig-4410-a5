@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ItemTest {
    
    
+   @SuppressWarnings("unused")
    private static Stream<Arguments> params_clone() {
       return Stream.of(
          Arguments.of(new Item("", "", "")),
@@ -37,6 +38,7 @@ public class ItemTest {
       assertNotSame(item, cloned);
    }
    
+   @SuppressWarnings("unused")
    private static Stream<Arguments> params_validity() {
       return Stream.of(
          Arguments.of(
