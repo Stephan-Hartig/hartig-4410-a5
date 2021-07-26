@@ -38,26 +38,8 @@ public class AddItemWidget extends Component {
       
       Item item = new Item(valueStr, serialStr, nameStr);
       
-      StringBuilder errMsg = new StringBuilder();
-      boolean allValid = true;
-      if (!item.isValidValue()) {
-         errMsg.append("Value must be a number with zero or two decimals: 100 or 100.00\n");
-         allValid = false;
-      }
-      if (!item.isValidSerial()) {
-         errMsg.append("Serial number must be 10 alphanumeric digits.\n");
-         allValid = false;
-      }
-      if (!item.isValidName()) {
-         errMsg.append("Name must be 2-256 alphanumeric digits or spaces.\n");
-         allValid = false;
-      }
-      
-      if (!allValid) {
-         Alert alert = new Alert(Alert.AlertType.ERROR, errMsg.toString(), ButtonType.OK);
-         alert.showAndWait();
+      if (this.parent.alertItemInvalid(item))
          return;
-      }
       
       this.parent.add(item);
       

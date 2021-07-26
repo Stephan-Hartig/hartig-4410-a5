@@ -42,24 +42,24 @@
       fx:id="root"
       xmlns="http://javafx.com/javafx/16"
       xmlns:fx="http://javafx.com/fxml/1"
-      alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="footer">
+      HBox.hgrow="ALWAYS" alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="footer">
    <children>
       <Button onAction="#add" minWidth="-Infinity" mnemonicParsing="false" text="Add" />
       <HBox alignment="CENTER" styleClass="add" HBox.hgrow="ALWAYS">
          <children>
-            <Label minWidth="0.0" text="Value" />
+            <!--<Label minWidth="0.0" text="Value" />-->
             <TextField fx:id="value" onKeyPressed="#add_keyPressed" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefColumnCount="6" promptText="Value" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
       <HBox alignment="CENTER" styleClass="add" HBox.hgrow="ALWAYS">
          <children>
-            <Label minWidth="0.0" text="Serial Number" />
+            <!--<Label minWidth="0.0" text="Serial Number" />-->
             <TextField fx:id="serial" onKeyPressed="#add_keyPressed" maxWidth="1.7976931348623157E308" minWidth="-Infinity" promptText="Serial Number" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
       <HBox alignment="CENTER" styleClass="add" HBox.hgrow="ALWAYS">
          <children>
-            <Label minWidth="0.0" text="Name" />
+            <!--<Label minWidth="0.0" text="Name" />-->
             <TextField fx:id="name" onKeyPressed="#add_keyPressed" maxWidth="1.7976931348623157E308" minWidth="-Infinity" promptText="Name" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>

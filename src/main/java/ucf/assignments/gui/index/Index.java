@@ -5,11 +5,11 @@ package ucf.assignments.gui.index;
  * Copyright 2021 Stephan Hartig
  */
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
@@ -58,6 +58,93 @@ public class Index extends Component {
       );
       
       this.table.setEditable(true);
+   
+      valueColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+      valueColumn.setOnEditCommit(
+         (EventHandler<TableColumn.CellEditEvent<Item, String>>) t -> {
+            Item oldItem = ((Item) t.getTableView().getItems().get(t.getTablePosition().getRow()));
+            Item newItem = t.getRowValue();
+            System.out.println("old " + oldItem.getName());
+            System.out.println("new " + newItem.getName());
+            if (!alertItemInvalidUpdate(newItem))
+               update(oldItem, newItem);
+            refreshDisplay();
+         }
+      );
+      serialColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+      valueColumn.setOnEditCommit(
+         (EventHandler<TableColumn.CellEditEvent<Item, String>>) t -> {
+            Item oldItem = ((Item) t.getTableView().getItems().get(t.getTablePosition().getRow()));
+            Item newItem = t.getRowValue();
+            if (!alertItemInvalidUpdate(newItem))
+               update(oldItem, newItem);
+            refreshDisplay();
+         }
+      );
+      nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+      valueColumn.setOnEditCommit(
+         (EventHandler<TableColumn.CellEditEvent<Item, String>>) t -> {
+            Item oldItem = ((Item) t.getTableView().getItems().get(t.getTablePosition().getRow()));
+            Item newItem = t.getRowValue();
+            if (!alertItemInvalidUpdate(newItem))
+               update(oldItem, newItem);
+            refreshDisplay();
+         }
+      );
+   }
+   
+   public boolean alertItemInvalidUpdate(Item item) {
+      StringBuilder errMsg = new StringBuilder();
+      boolean noErrors = true;
+      if (!item.isValidValue()) {
+         errMsg.append("**Value must be a number with zero or two decimals: 100 or 100.00\n");
+         noErrors = false;
+      }
+      if (!item.isValidSerial()) {
+         errMsg.append("**Serial number must be 10 alphanumeric digits.\n");
+         noErrors = false;
+      }
+      if (!item.isValidName()) {
+         errMsg.append("**Name must be 2-256 alphanumeric digits or spaces.\n");
+         noErrors = false;
+      }
+      
+      if (!noErrors) {
+         Alert alert = new Alert(Alert.AlertType.ERROR, errMsg.toString(), ButtonType.OK);
+         alert.showAndWait();
+         return true;
+      }
+      
+      return false;
+   }
+   
+   public boolean alertItemInvalid(Item item) {
+      StringBuilder errMsg = new StringBuilder();
+      boolean noErrors = true;
+      if (this.has(item)) {
+         errMsg.append("Item with serial number \"" + item.getSerial() + "\" already exists!\n");
+         noErrors = false;
+      }
+      if (!item.isValidValue()) {
+         errMsg.append("**Value must be a number with zero or two decimals: 100 or 100.00\n");
+         noErrors = false;
+      }
+      if (!item.isValidSerial()) {
+         errMsg.append("**Serial number must be 10 alphanumeric digits.\n");
+         noErrors = false;
+      }
+      if (!item.isValidName()) {
+         errMsg.append("**Name must be 2-256 alphanumeric digits or spaces.\n");
+         noErrors = false;
+      }
+   
+      if (!noErrors) {
+         Alert alert = new Alert(Alert.AlertType.ERROR, errMsg.toString(), ButtonType.OK);
+         alert.showAndWait();
+         return true;
+      }
+      
+      return false;
    }
    
    private void refreshDisplay() {
@@ -110,8 +197,10 @@ public class Index extends Component {
    public void menu_open() {
       File file = this.chooseFileLoad();
       
-      if (file != null)
+      if (file != null) {
          this.warehouse.load(file);
+         this.refreshDisplay();
+      }
    }
    
    public void menu_save() {
@@ -125,6 +214,7 @@ public class Index extends Component {
    
    public void menu_revertToSaved() {
       this.warehouse.refresh();
+      this.refreshDisplay();
    }
    
    public void menu_quit() {
