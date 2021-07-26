@@ -6,9 +6,9 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class Item {
-   @Getter public String value;
-   @Getter public String serial;
-   @Getter public String name;
+   @Getter private String value;
+   @Getter private String serial;
+   @Getter private String name;
    
    @SuppressWarnings("unused")
    public Item() { }

@@ -75,6 +75,9 @@ public class Warehouse {
    }
    
    public boolean save() {
+      if (this.lastFile == null)
+         return false;
+      
       return this.saveFromFile(this.lastFile);
    }
    

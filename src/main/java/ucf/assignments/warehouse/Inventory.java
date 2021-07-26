@@ -25,10 +25,10 @@ public class Inventory {
    }
    
    public boolean add(Item item) {
-      if (this.has(item.serial))
+      if (this.has(item.getSerial()))
          return false;
       
-      this.items.put(item.serial, item);
+      this.items.put(item.getSerial(), item);
       return true;
    }
    
